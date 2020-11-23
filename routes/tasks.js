@@ -4,7 +4,7 @@ var db = require('../database.js')
 
 /* GET posts listing. */
 router.get('/', function(req, res, next) {
-    var sql = 'select * from post'
+    var sql = 'select * from task'
     var params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
