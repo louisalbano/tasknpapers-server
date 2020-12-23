@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../database.js')
 
-/* GET posts listing. */
+/* GET tasks listing. */
 router.get('/', function(req, res, next) {
     var sql = 'select * from task'
     var params = []
@@ -16,6 +16,11 @@ router.get('/', function(req, res, next) {
             'data': rows
         })
     })
+});
+
+/* POST new task */
+router.get('/', function(req, res, next) {
+    
 });
 
 module.exports = router;
