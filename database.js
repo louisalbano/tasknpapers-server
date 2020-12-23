@@ -1,5 +1,5 @@
-var sqlite3 = require('sqlite3').verbose()
-var md5 = require('md5')
+const sqlite3 = require('sqlite3').verbose()
+const md5 = require('md5')
 
 const DBSOURCE = './data/tasknpapers.db3'
 
