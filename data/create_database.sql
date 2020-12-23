@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS task (
-	"task_id" INTEGER PRIMARY KEY,
+	"id" INTEGER PRIMARY KEY,
 	"name" TEXT NOT NULL CHECK(LENGTH("name") <= 150),
 	"description" TEXT NULL,
   /* SQLite does not have a true boolean data type, so add a constraint*/
