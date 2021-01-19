@@ -79,7 +79,7 @@ router.delete('/:id', function (req, res, next) {
       res.status(400).json({ 'error': res.message })
       return
     }
-    res.status(204)
+    res.status(204).send()
   })
 })
 
