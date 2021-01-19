@@ -70,4 +70,17 @@ router.patch('/:id', function (req, res, next) {
   })
 })
 
+/* DELETE existing task */
+router.delete('/:id', function (req, res, next) {
+  const sql = `DELETE FROM task WHERE id = ?`
+  const params = [req.params.id]
+  db.run(sql, params, (err, result) => {
+    if (err) {
+      res.status(400).json({ 'error': res.message })
+      return
+    }
+    res.status(204)
+  })
+})
+
 module.exports = router;
