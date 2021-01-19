@@ -11,10 +11,7 @@ router.get('/', function (req, res, next) {
       res.status(400).json({ 'error': err.message })
       return
     }
-    res.json({
-      'message': 'success',
-      'data': rows
-    })
+    res.json(rows)
   })
 });
 
@@ -27,10 +24,7 @@ router.get('/:id', function (req, res, next) {
       res.status(400).json({ 'error': err.message })
       return
     }
-    res.json({
-      'message': 'success',
-      'data': row
-    })
+    res.json(row)
   })
 })
 
@@ -38,22 +32,42 @@ router.get('/:id', function (req, res, next) {
 router.post('/', function (req, res, next) {
   const data = {
     name: req.body.name,
-    description: req.body.description
+    description: req.body.description,
+    doneFlag: 0
   }
   const sql = `INSERT INTO task (name, description, done_flag) 
-    VALUES (?, ?, 0);`
-  const params = [data.name, data.description]
+    VALUES (?, ?, ?);`
+  const params = [data.name, data.description, data.doneFlag]
   db.run(sql, params, function (err, result) {
     if (err) {
       res.status(400).json({ 'error': err.message })
       return
     }
-    res.json({
-      'message': 'success',
-      'data': data,
-      'id': this.lastID
-    })
+    res.json({ id: this.lastID, ...data })
   });
 });
+
+/* PATCH existing task */
+router.patch('/:id', function (req, res, next) {
+  const data = {
+    id: req.params.id,
+    name: req.body.name,
+    description: req.body.description,
+    doneFlag: req.body.doneFlag
+  }
+  const sql = `UPDATE task SET
+  name = COALESCE(?, name),
+  description = COALESCE(?, description),
+  done_flag = COALESCE(?, done_flag)
+  WHERE id = ?`
+  const params = [data.name, data.description, data.doneFlag, data.id]
+  db.run(sql, params, (err, result) => {
+    if (err) {
+      res.status(400).json({ 'error': res.message })
+      return
+    }
+    res.send(data)
+  })
+})
 
 module.exports = router;
